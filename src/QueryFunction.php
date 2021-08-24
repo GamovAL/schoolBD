@@ -15,7 +15,7 @@ class QueryFunction
     {
         $this->sentQuery("INSERT INTO teacher (last_name, name, otch) VALUES ('$last_name', '$name', '$otch');");
     }
-    function getTeacher()
+    function getTeachers()
     {
         $result = $this->sentQuery('SELECT * FROM teacher');
         $outResult = [];
@@ -24,6 +24,22 @@ class QueryFunction
             $outResult[] = $result->fetch_assoc();
         }
         return $outResult;
+    }
+
+    function getTeacher($id)
+    {
+        $result = $this->sentQuery("SELECT * FROM teacher WHERE teacher_id = $id LIMIT 1");
+        $result->data_seek(0);
+        return $result->fetch_assoc();
+    }
+    function updateTeacher($id, $last_name, $name, $otch)
+    {
+        $this->sentQuery("UPDATE teacher SET last_name = '$last_name', name = '$name', otch = '$otch' WHERE teacher_id = $id;");
+    }
+
+    function deleteTeacher($id)
+    {
+        $result = $this->sentQuery("DELETE FROM teacher WHERE teacher_id = $id");
     }
 
     function addClass($parallel, $letter, $teacher='NULL')

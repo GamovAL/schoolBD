@@ -8,5 +8,5 @@
   <label>
     Отчество: <input type="text" name="otch">
   </label>
-  <button type="submit">Добавить</button>
+  <button type="submit" class="btn btn-success">Добавить</button>
 </form>
