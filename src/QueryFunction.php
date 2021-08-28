@@ -4,6 +4,9 @@ class QueryFunction
     function __construct($host, $user, $password, $base)
     {
         $this->connect = new mysqli($host, $user, $password, $base);
+        if ($this->connect->connect_error) {
+            die('Ошибка подключения к базе данных');
+        }
     }
 
     function sentQuery($query)
@@ -44,6 +47,17 @@ class QueryFunction
 
     function addClass($parallel, $letter, $teacher='NULL')
     {
-        $this->sentQuery("INSERT INTO class (parallel, letter) VALUES ('$parallel', '$letter');");
+        $this->sentQuery("INSERT INTO class (parallel, letter, teacher_id) VALUES ('$parallel', '$letter', $teacher);");
+    }
+
+    function getClasses()
+    {
+        $result = $this->sentQuery('SELECT * FROM class');
+        $outResult = [];
+        for ($i = 0, $count = $result->num_rows; $i < $count; $i++) {
+            $result->data_seek($i);
+            $outResult[] = $result->fetch_assoc();
+        }
+        return $outResult;
     }
 }
